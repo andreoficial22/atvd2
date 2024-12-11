@@ -1,0 +1,14 @@
+#conteudo{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+
+}
+#cartoes{
+    max-width: 200px;
+    min-width: 200px;
+    padding: 20px;
+    background-color: red;
+    margin: 60px;
+    border-radius: 10px;
+}

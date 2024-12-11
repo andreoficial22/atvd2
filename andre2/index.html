@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="estilos.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Utilizando API</h1>
+    <div id="formulario">
+        Nome: <input type="text" id="caixa_nome" <br> <br>
+        Preço: <input type="number"  step="0.01" id="caixa_preco" <br> <br>
+        <button id="btncadastrar">Cadastrar</button>
+    </div>
+    <div id="conteudo">Carregando...</div>
+    <script>
+        $(document).ready(function(){
+
+            //cadastrar produtos 
+            $("#btncadastrar").click(function(){
+                var nome_digitado= $("caixa_nome").val();
+                var preco_digitado= $("caixa_preco").val();
+                $.ajax({
+                    url:"http://172.16.142.16:3000/produtos",
+                    type: "POST",
+                    headers:{api_key:"123456"},
+                    contentType:'application/json',
+                    data: JSON.stringify({nome:nome_digitado,
+                    preco: preco_digitado}),
+                    success:function(resposta){
+                        alert("cadastrado cara");
+
+                    },
+                    error: function(){
+                        alert("erro ao cadastrar cara ");
+                    }
+
+                });
+            }); // fim do click btncadastar
+
+
+
+
+
+            $.ajax({
+                url: "http://172.16.142.16:3000/produtos",
+                type: "GET",
+                dataType: "json",
+                headers: { api_key: "123456" },
+                success: function(resposta) {
+                    $("#conteudo").html("")
+                    var conteudoHtml = '';
+                    resposta.forEach(item => {
+                        conteudoHtml += `
+                        <div id='cartoes'>
+                            N ${item.id_produto}<br>
+                            Nome: ${item.nome_produto}<br>
+                            Preço: R$ ${item.preco}<br>
+                        </div>`;
+                    });
+                    $("#conteudo").append(conteudoHtml);
+                },
+                error: function() {
+                    alert("Erro ao buscar dados");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
